@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Employee {
@@ -89,12 +91,28 @@ public class Employee {
 		Map<String, Long> DeptCnt = emp.stream().collect(Collectors.groupingBy(Employee::getDept, Collectors.counting()));
 		System.out.println(DeptCnt);
 		//   vii)Find male and female employees are in Maintenance department?
-//	   viii) Find the average slary of male and female employees?
+		//	viii) Find the average slary of male and female employees?
 		Map<String, Double> avg = emp.stream().collect(Collectors.groupingBy(Employee::getGender, Collectors.averagingDouble(Employee::getSalary)));
 		System.out.println(avg);
 	   //ix) Differentiat eht the employees who are younger or equal to 30 yrs from those employees who older than 25 years
+		Map<Boolean, List<Employee>> emp30 = emp.stream().collect(Collectors.partitioningBy(e->e.getAge() <= 30 ));
+		Map<Boolean, List<Employee>> emp25 = emp.stream().collect(Collectors.partitioningBy(e->e.getAge() > 25));
+		Set<Entry<Boolean, List<Employee>>> entry1= emp30.entrySet();
+		Set<Entry<Boolean, List<Employee>>> entry2 = emp25.entrySet();
+		for(Entry<Boolean, List<Employee>> entry : entry1) {
+			if(entry.getKey()) {
+				System.out.println("Employees younger or equal to 30");
+			}
+			List<Employee> Emp = entry .getValue();
+			for(Employee e : Emp) {
+				System.out.println(e.getName());
+			}
+		}
+		
+		}
+		
 	// x) List down the names of all employees in each department?
 
+   
+}
 
-}
-}
